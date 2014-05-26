@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1400736796 source:f:\data\codeblocks\leetcode\main.cpp
+	<iostream>
+	<vector>
+	<map>
+	<stdio.h>
+	<string.h>
+	"include/ArrayCode.h"
+
+1400736933 f:\data\codeblocks\leetcode\include\arraycode.h
+
