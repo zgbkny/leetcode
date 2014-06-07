@@ -1,11 +1,19 @@
 # depslib dependency file v1.0
-1400736796 source:f:\data\codeblocks\leetcode\main.cpp
+1402107913 source:f:\data\codeblocks\leetcode\main.cpp
 	<iostream>
 	<vector>
 	<map>
 	<stdio.h>
 	<string.h>
 	"include/ArrayCode.h"
+	"include/StringCode.h"
 
-1400736933 f:\data\codeblocks\leetcode\include\arraycode.h
+1401157457 f:\data\codeblocks\leetcode\include\arraycode.h
+	<string>
+	<algorithm>
+	<stack>
+
+1402108010 f:\data\codeblocks\leetcode\include\stringcode.h
+	<string>
+	<iostream>
 

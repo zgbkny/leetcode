@@ -33,6 +33,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/ArrayCode.h" />
+		<Unit filename="include/StringCode.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
