@@ -2,6 +2,7 @@
 #define STRINGCODE_H_INCLUDED
 #include <string>
 #include <iostream>
+#include <map>
 using namespace std;
 class StringCode
 {
@@ -203,6 +204,167 @@ public:
             }
             return isMatch(s, p + 2);
         }
+    }
+    string longestCommonPrefix(vector<string> &strs) {
+        string ret;
+        char tmp;
+        int i = 0, j = 0;
+        while (strs.size() > 0 && i < strs[0].size()) {
+            tmp = strs[0][i];
+            for (j = 1; j < strs.size(); j++) {
+                if (tmp != strs[j][i]) break;
+            }
+            if (j == strs.size()) {
+                ret.insert(ret.end(), tmp);
+            } else {
+                break;
+            }
+            i++;
+        }
+        return ret;
+    }
+    string intToRoman(int num) {
+        const int radix[] = {1000, 900, 500, 400, 100, 90,
+                        50, 40, 10, 9, 5, 4, 1};
+        const string symbol[] = {"M", "CM", "D", "CD", "C", "XC",
+                        "L", "XL", "X", "IX", "V", "IV", "I"};
+        string ret("");
+        int a, b = num, div = 1000, i = 0, j = 0, tmp = 0;
+        for ( ; div; div /= 10) {
+            if (a = b / div) {
+                a *=div;
+                for (i = 0; i < 13; i++) {
+                    if (radix[i] <= a) {
+                        tmp = a - radix[i];
+                        tmp /= div;
+                        ret += symbol[i];
+                        while (tmp--) {
+                            switch(div) {
+                            case 1:
+                                ret += "I";
+                                break;
+                            case 10:
+                                ret += "X";
+                                break;
+                            case 100:
+                                ret += "C";
+                                break;
+                            case 1000:
+                                ret += "M";
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                b -= a;
+            }
+        }
+        return ret;
+    }
+    int romanToInt(string s) {
+        const int radix[] = {1000, 900, 500, 400, 100, 90,
+                        50, 40, 10, 9, 5, 4, 1};
+        const int add[] = {1000, 100, 100, 100, 100, 10,
+                        10, 10, 10, 1, 1, 1, 1};
+        const string symbol[] = {"M", "CM", "D", "CD", "C", "XC",
+                        "L", "XL", "X", "IX", "V", "IV", "I"};
+        const string pend[] = {"M", "C", "C", "C", "C", "X",
+                        "X", "X", "X", "I", "I", "I", "I"};
+        int ret = 0, i = 0, j = 0, k = 0;
+        string tmp(s);
+        for (i = 0; i < 13; i++) {
+            if (tmp.substr(j, symbol[i].size()) == symbol[i]) {
+                ret += radix[i];
+                j += symbol[i].size();
+                while (tmp.substr(j, 1) == pend[i]) {
+
+                    ret += add[i];
+                    j++;
+                }
+            }
+        }
+        return ret;
+    }
+    string countAndSay(int n) {
+        int i = 0, j = 0, num = 0, freq = 0;
+        string init("1"), ret("");
+        char tmp;
+        for (i = 1; i < n; i++) {
+            tmp = init[0];
+            freq = 1;
+            for (j = 1; j < init.size(); j++) {
+                if (tmp == init[j]) freq++;
+                else {
+                    ret.insert(ret.end(), freq + '0');
+                    ret.insert(ret.end(), tmp);
+                    tmp = init[j];
+                    freq = 1;
+                }
+            }
+            ret.insert(ret.end(), freq + '0');
+            ret.insert(ret.end(), tmp);
+            init = ret;
+            ret = "";
+        }
+        return init;
+    }
+    /*vector<string> anagrams(vector<string> &strs) {
+        unordered_map<string, vector<string> > group;
+        for (const auto &s : strs) {
+            string key = s;
+            sort(key.begin(), key.end());
+            group[key].push_back(s);
+        }
+        vector<string> result;
+        for (auto it = group.cbegin(); it != group.cend(); it++) {
+            if (it->second.size() > 1)
+                result.insert(result.end(), it->second.begin(), it->second.end());
+        }
+        return result;
+    }*/
+    void getNext(string &path, int *start, int *end) {
+        for ( ; *start < path.size(); (*start)++) {
+            if (path[*start] != '/') break;
+        }
+        for ( ; *end < path.size(); (*end)++) {
+            if (path[*end] == '/') break;
+        }
+    }
+    string simplifyPath(string path) {
+        vector<string> strs;
+        string ret("");
+        int sindex = 0, eindex = 1;
+        getNext(path, &sindex, &eindex);
+        eindex = sindex;
+        for (getNext(path, &sindex, &eindex) ; sindex < eindex; getNext(path, &sindex, &eindex)) {
+            if (path.substr(sindex, eindex - sindex) == string(".")) {
+
+            } else if (path.substr(sindex, eindex - sindex) == string("..")){
+                if (strs.size() > 0)
+                    strs.erase(strs.end() - 1);
+            } else
+                strs.push_back(path.substr(sindex, eindex - sindex));
+            sindex = eindex;
+            getNext(path, &sindex, &eindex);
+            eindex = sindex;
+        }
+        for (int i = 0; i < strs.size(); i++) {
+            ret += "/";
+            ret += strs[i];
+        }
+        if (ret.size() == 0) ret += "/";
+        return ret;
+    }
+    int lengthOfLastWord(const char *s) {
+        int size = strlen(s), i = 0, j = 1;
+        for ( ; j < size; j++) {
+            if (s[size - j] != ' ') break;
+        }
+        for ( ; i + j <= size; i++) {
+            if (s[size - i - j] == ' ') break;
+        }
+        return i;
     }
 };
 

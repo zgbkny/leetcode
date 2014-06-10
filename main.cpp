@@ -13,10 +13,10 @@ using namespace std;
 int main(){
     string s(".,");
     char *test1 = "aaa";
-    char *test2 = "a*a";
+    char *test2 = "sdfg world ";
 
     StringCode sc;
-    cout << sc.isMatch(test1, test2);
+    cout << sc.lengthOfLastWord(test2);
     //cout << sc.strStr(test1, test2);
         /*vector<int> a;
     a.push_back(0);
