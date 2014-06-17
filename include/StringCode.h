@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <stack>
 using namespace std;
 class StringCode
 {
@@ -365,6 +366,67 @@ public:
             if (s[size - i - j] == ' ') break;
         }
         return i;
+    }
+    bool isValid(string s) {
+        int i = 0;
+        stack<char> stk;
+        for (i = 0; i < s.size(); i++) {
+            if (s[i] == ']' || s[i] == ')' || s[i] == '}') {
+                if (!stk.empty())
+                    switch(s[i]) {
+                    case ']':
+                        if (stk.top() == '[') {
+                            stk.pop();
+                        } else return false;
+                        break;
+                    case ')':
+                        if (stk.top() == '(') {
+                            stk.pop();
+                        } else return false;
+                        break;
+                    case '}':
+                        if (stk.top() == '{') {
+                            stk.pop();
+                        } else return false;
+                        break;
+                    }
+                else return false;
+            } else {
+                stk.push(s[i]);
+            }
+        }
+        if (stk.empty()) return true;
+        else return false;
+    }
+
+    int longestValidParentheses(string s) {
+        vector<int> count(s.size(), 0);
+        int i = 0, match = 0, ret = 0;
+        for (i = 1; i < s.size(); i++) {
+            match = i - count[i - 1] - 1;
+            if (match >= 0 && s[match] == '(' && s[i] == ')') {
+                count[i] = count[i - 1] + 2;
+                if (match > 0) count[i] += count[match - 1];
+            }
+            ret = max(ret, count[i]);
+        }
+        return ret;
+    }
+    int largestRectangleArea(vector<int> &height) {
+        stack<int> s;
+        height.push_back(0);
+        int result = 0;
+        for (int i = 0; i < height.size(); ) {
+            if (s.empty() || height[i] > height[s.top()])
+                s.push(i++);
+            else {
+                int tmp = s.top();
+                s.pop();
+                result = max(result,
+                            height[tmp] * (s.empty() ? i : i - s.top() - 1));
+            }
+        }
+        return result;
     }
 };
 

@@ -13,10 +13,10 @@ using namespace std;
 int main(){
     string s(".,");
     char *test1 = "aaa";
-    char *test2 = "sdfg world ";
+    char *test2 = "()()";
 
     StringCode sc;
-    cout << sc.lengthOfLastWord(test2);
+    cout << sc.longestValidParentheses(test2);
     //cout << sc.strStr(test1, test2);
         /*vector<int> a;
     a.push_back(0);

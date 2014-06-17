@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1402405164 source:f:\data\codeblocks\leetcode\main.cpp
+1402554473 source:f:\data\codeblocks\leetcode\main.cpp
 	<iostream>
 	<vector>
 	<map>
@@ -13,8 +13,9 @@
 	<algorithm>
 	<stack>
 
-1402405283 f:\data\codeblocks\leetcode\include\stringcode.h
+1402557036 f:\data\codeblocks\leetcode\include\stringcode.h
 	<string>
 	<iostream>
 	<map>
+	<stack>
 
