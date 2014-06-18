@@ -5,7 +5,7 @@
 #include <string.h>
 #include "include/ArrayCode.h"
 #include "include/StringCode.h"
-
+#include "include/TreeCode.h"
 using namespace std;
 
 
