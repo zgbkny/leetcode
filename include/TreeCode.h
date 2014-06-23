@@ -12,6 +12,12 @@ using namespace std;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+struct TreeLinkNode {
+    TreeLinkNode *left;
+    TreeLinkNode *right;
+    TreeLinkNode *next;
+}
+
 class TreeCode {
     void visitNode(TreeNode *node, vector<int> &vec) {
         if (node){
@@ -159,7 +165,7 @@ class TreeCode {
             node2->val = tmp;
         }
     }
-    void detect(pair<TreeNode*, TreeNode*>& broken, TreeNode* prev,
+/*    void detect(pair<TreeNode*, TreeNode*>& broken, TreeNode* prev,
                     TreeNode* current) {
         if (prev != nullptr && prev->val > current->val) {
             if (broken.first == nullptr) {
@@ -195,7 +201,7 @@ class TreeCode {
             }
         }
         swap(broken.first->val, broken.second->val);
-    }
+    }*/
     bool preCheckNode(TreeNode *p, TreeNode *q) {
         if (p && q)
             if (p->val != q->val) return false;
@@ -223,23 +229,60 @@ class TreeCode {
         else return true;
     }
 
-    bool checkNode(TreeNode *node, int cur, int *deep) {
-
-        if (node->left || node->right) {
-            *deep += 1;
-            if (node->left)
-        } else {
-            if (cur < deep - 1) return false;
-            else return true;
-        }
+    int balancedHeight (TreeNode* root) {
+        if (root == NULL) return 0; // 终止条件
+        int left = balancedHeight (root->left);
+        int right = balancedHeight (root->right);
+        if (left < 0 || right < 0 || abs(left - right) > 1) return -1; // 剪枝
+        return max(left, right) + 1; // 三方合并
     }
 
     bool isBalanced(TreeNode *root) {
-        int deep = 0;
-        if (root) {
-            return checkNode(root, 0, &deep)
-        } else return true;
+        return balancedHeight (root) >= 0;
     }
+
+    void flatten(TreeNode *root) {
+        if (root == NULL) return;
+        flatten(root->left);
+        flatten(root->right);
+        if (root->left == NULL) return;
+
+        TreeNode *p = root->left;
+        while (p->right) p = p->right;
+        p->right = root->right;
+        root->right = root->left;
+        root->left = NULL;
+    }
+
+    void connect(TreeLinkNode *root) {
+        queue<TreeLinkNode *> cur_level, son_level;
+        if (root) cur_level.push(root);
+        while (!cur_level.empty()) {
+            TreeLinkNode *preNode = NULL, *node = NULL;
+            while (!cur_level.empty()) {
+                node = cur_level.front();
+                if (node->left) son_level.push(node->left);
+                if (node->right) son_level.push(node->right);
+                if (preNode) preNode->next = node;
+                preNode = node;
+                cur_level.pop();
+            }
+            node->next = NULL;
+            swap(cur_level, son_level);
+        }
+    }
+
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        TreeNode *root = NULL;
+        int i = 0, j = 0;
+        for (i = 0; i < preorder.size(); i++) {
+            for (j = i; j < inorder.size(); j++) {
+                if (preorder[i] == inorder[j]) break;
+            }
+        }
+        return root;
+    }
+
 };
 
-#endif // TREECODE_H_INCLUDED
+#endif // TREECODE_H_INCLUDE
