@@ -5,7 +5,13 @@
 
 using namespace std;
 
- struct TreeNode {
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
@@ -16,7 +22,7 @@ struct TreeLinkNode {
     TreeLinkNode *left;
     TreeLinkNode *right;
     TreeLinkNode *next;
-}
+};
 
 class TreeCode {
     void visitNode(TreeNode *node, vector<int> &vec) {
@@ -271,17 +277,131 @@ class TreeCode {
             swap(cur_level, son_level);
         }
     }
-
-    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
-        TreeNode *root = NULL;
-        int i = 0, j = 0;
-        for (i = 0; i < preorder.size(); i++) {
-            for (j = i; j < inorder.size(); j++) {
-                if (preorder[i] == inorder[j]) break;
-            }
-        }
+    TreeNode* buildTree1(vector<int>& preorder, vector<int>& inorder) {
+        return buildTree(preorder.begin(), preorder.end(),
+                    inorder.begin(), inorder.end());
+    }
+    TreeNode *buildTree1(vector<int>::iterator pre_first, vector<int>::iterator pre_last,
+                        vector<int>::iterator in_first, vector<int>::iterator in_last) {
+        if (pre_first == pre_last) return NULL;
+        if (in_first == in_last) return NULL;
+        TreeNode *root = new TreeNode(*pre_first);
+        vector<int>::iterator inRootPos = find(in_first, in_last, *pre_first);
+        int leftSize = distance(in_first, inRootPos);
+        root->left = buildTree(pre_first + 1, pre_first + leftSize + 1,
+                               in_first, in_first + leftSize);
+        root->right = buildTree(pre_first + leftSize + 1, pre_last,
+                                inRootPos + 1, in_last);
         return root;
     }
+
+    TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
+        return buildTree(inorder.begin(), inorder.end(),
+                         postorder.begin(), postorder.end());
+    }
+    TreeNode *buildTree(vector<int>::iterator in_first, vector<int>::iterator in_last,
+                        vector<int>::iterator post_first, vector<int>::iterator post_last) {
+        if (post_first == post_last) return NULL;
+        if (in_first == in_last) return NULL;
+        TreeNode *root = new TreeNode(*(post_last - 1));
+        vector<int>::iterator inRootPos = find(in_first, in_last, *(post_last - 1));
+        int leftSize = distance(in_first, inRootPos);
+        root->left = buildTree(in_first, in_first + leftSize,
+                               post_first, post_first + leftSize);
+        root->right = buildTree(inRootPos + 1, in_last,
+                                post_first + leftSize, post_last - 1);
+        return root;
+    }
+
+    int numTrees(int n) {
+        map<int, int> mp;
+        mp[0] = mp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            for (int j = 0; j <= i; j++) {
+                mp[i] += mp[j] * mp[i - 1 - j];
+            }
+        }
+        return mp[n];
+    }
+    vector<TreeNode *> generate(int start, int stop) {
+        vector<TreeNode *> subTrees;
+        if (start > stop) {
+            subTrees.push_back(NULL);
+            return subTrees;
+        }
+        for (int i = start; i <= stop; i++) {
+            vector<TreeNode *> leftSubs = generate(start, i - 1);
+            vector<TreeNode *> rightSubs = generate(i + 1, stop);
+            for (int x = 0; x < leftSubs.size(); x++) {
+                for (int y = 0; y < rightSubs.size(); y++) {
+                    TreeNode *node = new TreeNode(i);
+                    node->left = leftSubs[x];
+                    node->right = rightSubs[y];
+                    subTrees.push_back(node);
+                }
+            }
+        }
+        return subTrees;
+    }
+
+    vector<TreeNode *> generateTrees(int n) {
+        if (n == 0) return generate(1, 0);
+        return generate(1, n);
+    }
+    bool isValidBST(TreeNode *root, int low, int high) {
+        if (!root) return true;
+        return root->val > low && root->val < high
+                && isValidBST(root->left, low, root->val)
+                && isValidBST(root->right, root->val, high);
+    }
+    bool isValidBST(TreeNode *root) {
+        return isValidBST(root, INT_MIN, INT_MAX);
+    }
+
+    TreeNode *sortedArrayToBST(vector<int>::iterator start,
+                               vector<int>::iterator stop) {
+        int i = distance(start, stop);
+        if (i == 0) return NULL;
+        vector<int>::iterator mid = start + i/2;
+        TreeNode *node = new TreeNode(*mid);
+        node->left = sortedArrayToBST(start, mid);
+        node->right = sortedArrayToBST(mid + 1, stop);
+        return node;
+    }
+
+    TreeNode *sortedArrayToBST(vector<int> &num) {
+        return sortedArrayToBST(num.begin(), num.end());
+    }
+    TreeNode *sortedArrayToBST(ListNode *head, int len, int start) {
+        ListNode *item = head;
+        for (int i = 0; i < len/2 + start; i++, item = item->next);
+        TreeNode *node = new TreeNode(item->val);
+        node->left = sortedArrayToBST(head, len/2, start);
+        node->right = sortedArrayToBST(head, len - len/2 - 1, start + len/2 + 1);
+        return node;
+    }
+
+    TreeNode *sortedListToBST(ListNode *head) {
+        int i = 0;
+        while (head) i++;
+        return sortedArrayToBST(head, i, 0);
+    }
+
+/*
+    template<typename InputIterator>
+    TreeNode* buildTree(InputIterator pre_first, InputIterator pre_last,
+        InputIterator in_first, InputIterator in_last) {
+        if (pre_first == pre_last) return nullptr;
+        if (in_first == in_last) return nullptr;
+        auto root = new TreeNode(*pre_first);
+        auto inRootPos = find(in_first, in_last, *pre_first);
+        auto leftSize = distance(in_first, inRootPos);
+        root->left = buildTree(next(pre_first), next(pre_first,
+                            leftSize + 1), in_first, next(in_first, leftSize));
+        root->right = buildTree(next(pre_first, leftSize + 1), pre_last,
+                            next(inRootPos), in_last);
+        return root;
+    }*/
 
 };
 
