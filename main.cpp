@@ -10,7 +10,13 @@ using namespace std;
 
 
 
-int main(){
+int main()
+{
+
+    unsigned short us = 100000;
+    float f = 100000000000;
+    cout << f;
+    cout << (int)us << endl;
     string s(".,");
     char *test1 = "aaa";
     char *test2 = "()()";
@@ -18,7 +24,7 @@ int main(){
     StringCode sc;
     cout << sc.longestValidParentheses(test2);
     //cout << sc.strStr(test1, test2);
-        /*vector<int> a;
+    /*vector<int> a;
     a.push_back(0);
     a.push_back(1);
     vector<vector<int> >data;

@@ -7,7 +7,8 @@ using namespace std;
 class ArrasyCode
 {
 public:
-    void findInLow(vector<int> &data, int n, int product, int k) {
+    void findInLow(vector<int> &data, int n, int product, int k)
+    {
         int tmp = k, quotient = 0, i = 0;
         for ( ; n > 0; n--)
             if (k >= product) break;
@@ -33,14 +34,14 @@ public:
 
             if (tmp == 2)
                 reverse(data.end() - 2, data.end());
-            else
-                if (data.size() > 1)
-                    sort(data.end() - 2, data.end());
+            else if (data.size() > 1)
+                sort(data.end() - 2, data.end());
         } else
             reverse(data.end() - n, data.end());
 
     }
-    string getPermutation(int n, int k) {
+    string getPermutation(int n, int k)
+    {
         vector<int> data;
         string ret(n, 0);
         int i = 0, product = 1, tmp = 0;
@@ -58,7 +59,8 @@ public:
         return ret;
     }
 
-    int trap(int A[], int n) {
+    int trap(int A[], int n)
+    {
         int *max_left = new int[n]();
         int *max_right = new int[n]();
         for (int i = 1; i < n; i++) {
@@ -76,28 +78,30 @@ public:
         delete[] max_right;
         return sum;
     }
-    int trap1(int A[], int n) {
+    int trap1(int A[], int n)
+    {
         stack<pair<int, int> > s;
         int water = 0;
         for (int i = 0; i < n; ++i) {
             int height = 0;
-            while (!s.empty()) { // ½«Õ»Àï±Èµ±Ç°ÔªËØ°«»òµÈ¸ßµÄÔªËØÈ«²¿´¦Àíµô
+            while (!s.empty()) { // å°†æ ˆé‡Œæ¯”å½“å‰å…ƒç´ çŸ®æˆ–ç­‰é«˜çš„å…ƒç´ å…¨éƒ¨å¤„ç†æŽ‰
                 int bar = s.top().first;
                 int pos = s.top().second;
-                // bar, height, a[i] ÈýÕß¼Ð³ÉµÄ°¼ÏÝ
+                // bar, height, a[i] ä¸‰è€…å¤¹æˆçš„å‡¹é™·
                 water += (min(bar, A[i]) - height) * (i - pos - 1);
                 height = bar;
-                if (A[i] < bar) // Åöµ½ÁË±Èµ±Ç°ÔªËØ¸ßµÄ£¬Ìø³öÑ­»·
+                if (A[i] < bar) // ç¢°åˆ°äº†æ¯”å½“å‰å…ƒç´ é«˜çš„ï¼Œè·³å‡ºå¾ªçŽ¯
                     break;
                 else
-                    s.pop(); // µ¯³öÕ»¶¥£¬ÒòÎª¸ÃÔªËØ´¦ÀíÍêÁË£¬²»ÔÙÐèÒªÁË
+                    s.pop(); // å¼¹å‡ºæ ˆé¡¶ï¼Œå› ä¸ºè¯¥å…ƒç´ å¤„ç†å®Œäº†ï¼Œä¸å†éœ€è¦äº†
             }
             s.push(make_pair(A[i], i));
         }
         return water;
     }
 
-    void rotate(vector<vector<int> > &matrix) {
+    void rotate(vector<vector<int> > &matrix)
+    {
         int n = matrix.size();
 
         for (int i = 0; i < n; i++)
@@ -109,7 +113,8 @@ public:
                 swap(matrix[i][j], matrix[n - i - 1][j]);
     }
 
-    vector<int> plusOne(vector<int> &digits) {
+    vector<int> plusOne(vector<int> &digits)
+    {
         vector<int> ret;
         int idx = 0;
         digits[digits.size() - 1]++;
@@ -142,19 +147,21 @@ public:
             step(n - 1, count);
         }
     }
-    int climbStairs(int n) {
+    int climbStairs(int n)
+    {
         //const double s = sqrt(5);
         //return floor((pow((1+s)/2, n+1) + pow((1-s)/2, n+1))/s + 0.5);
         int prev = 0;
         int cur = 1;
-        for(int i = 1; i <= n ; ++i){
+        for(int i = 1; i <= n ; ++i) {
             int tmp = cur;
             cur += prev;
             prev = tmp;
         }
         return cur;
     }
-    vector<int> grayCode(int n) {
+    vector<int> grayCode(int n)
+    {
         vector<int> ret;
         ret.resize(2 * n + 1);
         unsigned int v = 1 << n;
@@ -174,7 +181,8 @@ public:
         return ret;
     }
 
-    void setZeroes(vector<vector<int> > &matrix) {
+    void setZeroes(vector<vector<int> > &matrix)
+    {
         vector<int> row, column;
         int size = 0;
         for (int i = 0; i < matrix.size(); i++) {
@@ -200,7 +208,8 @@ public:
         }
     }
 
-    int largestRectangleArea(vector<int> &height) {
+    int largestRectangleArea(vector<int> &height)
+    {
         return 1;
     }
 

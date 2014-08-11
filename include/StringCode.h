@@ -8,7 +8,8 @@ using namespace std;
 class StringCode
 {
 public:
-    char change(char c) {
+    char change(char c)
+    {
         if (c >= 'a' && c <= 'z') {
             return c;
         }
@@ -18,13 +19,15 @@ public:
         if (c >= '0' && c <= '9') return c;
         return 0;
     }
-    bool isPalindrome(string s) {
+    bool isPalindrome(string s)
+    {
         if (!s.size()) return true;
         int i = 0, j = s.size() - 1;
         for ( ; i < j; ) {
             if (change(s[i]) && change(s[j])) {
                 if (change(s[i]) == change(s[j])) {
-                    i++; j--;
+                    i++;
+                    j--;
                 } else {
                     return false;
                 }
@@ -32,12 +35,14 @@ public:
             if (!change(s[i]) && change(s[j])) i++;
             if (change(s[i]) && !change(s[j])) j--;
             if (!change(s[i]) && !change(s[j])) {
-                i++; j--;
+                i++;
+                j--;
             }
         }
         return true;
     }
-    static int kmp(const char *text, const char *pattern) {
+    static int kmp(const char *text, const char *pattern)
+    {
         int i;
         int j = -1;
         const int n = strlen(text);
@@ -57,7 +62,8 @@ public:
         free(next);
         return -1;
     }
-    static void compute_prefix(const char *pattern, int next[]) {
+    static void compute_prefix(const char *pattern, int next[])
+    {
         int i;
         int j = -1;
         const int m = strlen(pattern);
@@ -68,7 +74,8 @@ public:
             next[i] = j;
         }
     }
-    char *strStr(char *haystack, char *needle) {
+    char *strStr(char *haystack, char *needle)
+    {
         int pos = kmp(haystack, needle);
         if (pos == -1) return NULL;
         else return (char*)haystack + pos;
@@ -85,7 +92,8 @@ public:
             next[i] = j;
         }
     }
-    void test_kmp(const char *pattern) {
+    void test_kmp(const char *pattern)
+    {
         int m = strlen(pattern);
         int *next = (int*)malloc(sizeof(int) * m);
         compute_prefix(pattern, next);
@@ -94,7 +102,8 @@ public:
         }
     }
 
-    int atoi(const char *str) {
+    int atoi(const char *str)
+    {
         int ret = 0, i = 0, len = strlen(str), flag = 1, num = 0;
         long long tmp = 0;
         for (i = 0; i < len && str[i] == ' '; i++) ;
@@ -115,7 +124,8 @@ public:
         return ret;
     }
 
-    string addBinary(string a, string b) {
+    string addBinary(string a, string b)
+    {
         int n = max(a.size(), b.size()),
             m = min(a.size(), b.size()),
             x, y, tmp = 0, i = 0;
@@ -150,7 +160,8 @@ public:
         return ret;
     }
 
-    string longestPalindrome(string s) {
+    string longestPalindrome(string s)
+    {
         string tmp, ret;
         vector<int> len;
         int i = 0, j = 0, k = 0, sum = 1, index = 0, right_border = 0;
@@ -188,7 +199,8 @@ public:
         }
         return ret;
     }
-    bool isMatch(const char *s, const char *p) {
+    bool isMatch(const char *s, const char *p)
+    {
         if (*p == '\0') return *s == '\0';
         // next char is not '*', then must match current character
         if (*(p + 1) != '*') {
@@ -206,7 +218,8 @@ public:
             return isMatch(s, p + 2);
         }
     }
-    string longestCommonPrefix(vector<string> &strs) {
+    string longestCommonPrefix(vector<string> &strs)
+    {
         string ret;
         char tmp;
         int i = 0, j = 0;
@@ -224,11 +237,14 @@ public:
         }
         return ret;
     }
-    string intToRoman(int num) {
+    string intToRoman(int num)
+    {
         const int radix[] = {1000, 900, 500, 400, 100, 90,
-                        50, 40, 10, 9, 5, 4, 1};
+                             50, 40, 10, 9, 5, 4, 1
+                            };
         const string symbol[] = {"M", "CM", "D", "CD", "C", "XC",
-                        "L", "XL", "X", "IX", "V", "IV", "I"};
+                                 "L", "XL", "X", "IX", "V", "IV", "I"
+                                };
         string ret("");
         int a, b = num, div = 1000, i = 0, j = 0, tmp = 0;
         for ( ; div; div /= 10) {
@@ -263,15 +279,20 @@ public:
         }
         return ret;
     }
-    int romanToInt(string s) {
+    int romanToInt(string s)
+    {
         const int radix[] = {1000, 900, 500, 400, 100, 90,
-                        50, 40, 10, 9, 5, 4, 1};
+                             50, 40, 10, 9, 5, 4, 1
+                            };
         const int add[] = {1000, 100, 100, 100, 100, 10,
-                        10, 10, 10, 1, 1, 1, 1};
+                           10, 10, 10, 1, 1, 1, 1
+                          };
         const string symbol[] = {"M", "CM", "D", "CD", "C", "XC",
-                        "L", "XL", "X", "IX", "V", "IV", "I"};
+                                 "L", "XL", "X", "IX", "V", "IV", "I"
+                                };
         const string pend[] = {"M", "C", "C", "C", "C", "X",
-                        "X", "X", "X", "I", "I", "I", "I"};
+                               "X", "X", "X", "I", "I", "I", "I"
+                              };
         int ret = 0, i = 0, j = 0, k = 0;
         string tmp(s);
         for (i = 0; i < 13; i++) {
@@ -287,7 +308,8 @@ public:
         }
         return ret;
     }
-    string countAndSay(int n) {
+    string countAndSay(int n)
+    {
         int i = 0, j = 0, num = 0, freq = 0;
         string init("1"), ret("");
         char tmp;
@@ -324,7 +346,8 @@ public:
         }
         return result;
     }*/
-    void getNext(string &path, int *start, int *end) {
+    void getNext(string &path, int *start, int *end)
+    {
         for ( ; *start < path.size(); (*start)++) {
             if (path[*start] != '/') break;
         }
@@ -332,7 +355,8 @@ public:
             if (path[*end] == '/') break;
         }
     }
-    string simplifyPath(string path) {
+    string simplifyPath(string path)
+    {
         vector<string> strs;
         string ret("");
         int sindex = 0, eindex = 1;
@@ -341,7 +365,7 @@ public:
         for (getNext(path, &sindex, &eindex) ; sindex < eindex; getNext(path, &sindex, &eindex)) {
             if (path.substr(sindex, eindex - sindex) == string(".")) {
 
-            } else if (path.substr(sindex, eindex - sindex) == string("..")){
+            } else if (path.substr(sindex, eindex - sindex) == string("..")) {
                 if (strs.size() > 0)
                     strs.erase(strs.end() - 1);
             } else
@@ -357,7 +381,8 @@ public:
         if (ret.size() == 0) ret += "/";
         return ret;
     }
-    int lengthOfLastWord(const char *s) {
+    int lengthOfLastWord(const char *s)
+    {
         int size = strlen(s), i = 0, j = 1;
         for ( ; j < size; j++) {
             if (s[size - j] != ' ') break;
@@ -367,7 +392,8 @@ public:
         }
         return i;
     }
-    bool isValid(string s) {
+    bool isValid(string s)
+    {
         int i = 0;
         stack<char> stk;
         for (i = 0; i < s.size(); i++) {
@@ -399,7 +425,8 @@ public:
         else return false;
     }
 
-    int longestValidParentheses(string s) {
+    int longestValidParentheses(string s)
+    {
         vector<int> count(s.size(), 0);
         int i = 0, match = 0, ret = 0;
         for (i = 1; i < s.size(); i++) {
@@ -412,7 +439,8 @@ public:
         }
         return ret;
     }
-    int largestRectangleArea(vector<int> &height) {
+    int largestRectangleArea(vector<int> &height)
+    {
         stack<int> s;
         height.push_back(0);
         int result = 0;
@@ -423,7 +451,7 @@ public:
                 int tmp = s.top();
                 s.pop();
                 result = max(result,
-                            height[tmp] * (s.empty() ? i : i - s.top() - 1));
+                             height[tmp] * (s.empty() ? i : i - s.top() - 1));
             }
         }
         return result;

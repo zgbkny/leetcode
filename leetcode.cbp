@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -33,8 +34,11 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/ArrayCode.h" />
+		<Unit filename="include/SearchCode.h" />
+		<Unit filename="include/SortCode.h" />
 		<Unit filename="include/StringCode.h" />
 		<Unit filename="include/TreeCode.h" />
+		<Unit filename="include/VioSearchCode.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
