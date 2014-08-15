@@ -505,7 +505,7 @@ class TreeCode
         return max(left, right);
     }
     int max_sum;
-    int maxPathSum(TreeNode *root) {
+    int maxPathSum1(TreeNode *root) {
         max_sum = INT_MIN;
         dfs(root);
         return max_sum;

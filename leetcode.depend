@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1402554473 source:f:\data\codeblocks\leetcode\main.cpp
+1407767378 source:f:\data\codeblocks\leetcode\main.cpp
 	<iostream>
 	<vector>
 	<map>
@@ -7,13 +7,14 @@
 	<string.h>
 	"include/ArrayCode.h"
 	"include/StringCode.h"
+	"include/TreeCode.h"
 
-1401157457 f:\data\codeblocks\leetcode\include\arraycode.h
+1407767378 f:\data\codeblocks\leetcode\include\arraycode.h
 	<string>
 	<algorithm>
 	<stack>
 
-1402557036 f:\data\codeblocks\leetcode\include\stringcode.h
+1407767378 f:\data\codeblocks\leetcode\include\stringcode.h
 	<string>
 	<iostream>
 	<map>
@@ -65,6 +66,10 @@
 	<stack>
 
 1407300350 /home/crazymind/code/c++/leetcode/include/TreeCode.h
+	<queue>
+	<limits.h>
+
+1407767378 f:\data\codeblocks\leetcode\include\treecode.h
 	<queue>
 	<limits.h>
 

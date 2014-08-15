@@ -13,16 +13,17 @@ using namespace std;
 int main()
 {
 
-    unsigned short us = 100000;
-    float f = 100000000000;
-    cout << f;
-    cout << (int)us << endl;
-    string s(".,");
-    char *test1 = "aaa";
-    char *test2 = "()()";
 
     StringCode sc;
-    cout << sc.longestValidParentheses(test2);
+    int char_ = 1;
+    const int &val = 1;
+    cout << val;
+    string word;
+    while (cin >> word) {
+        cout << word;
+    }
+    cout << "#";
+
     //cout << sc.strStr(test1, test2);
     /*vector<int> a;
     a.push_back(0);
