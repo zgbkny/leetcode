@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1407767378 source:f:\data\codeblocks\leetcode\main.cpp
+1410413740 source:f:\data\codeblocks\leetcode\main.cpp
 	<iostream>
 	<vector>
 	<map>
@@ -8,6 +8,7 @@
 	"include/ArrayCode.h"
 	"include/StringCode.h"
 	"include/TreeCode.h"
+	"include/DPCode.h"
 
 1407767378 f:\data\codeblocks\leetcode\include\arraycode.h
 	<string>
@@ -69,7 +70,14 @@
 	<queue>
 	<limits.h>
 
-1407767378 f:\data\codeblocks\leetcode\include\treecode.h
+1407942399 f:\data\codeblocks\leetcode\include\treecode.h
 	<queue>
 	<limits.h>
+
+1410324219 f:\data\codeblocks\leetcode\include\dfscode.h
+	<vector>
+	<string>
+	<iostream>
+
+1410413855 f:\data\codeblocks\leetcode\include\dpcode.h
 

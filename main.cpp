@@ -6,23 +6,16 @@
 #include "include/ArrayCode.h"
 #include "include/StringCode.h"
 #include "include/TreeCode.h"
+#include "include/DPCode.h"
 using namespace std;
 
 
 
 int main()
 {
-
-
-    StringCode sc;
-    int char_ = 1;
-    const int &val = 1;
-    cout << val;
-    string word;
-    while (cin >> word) {
-        cout << word;
-    }
-    cout << "#";
+    string s = "dde";
+    vector<int> v;
+    cout << maxProfit(v);
 
     //cout << sc.strStr(test1, test2);
     /*vector<int> a;

@@ -34,6 +34,9 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/ArrayCode.h" />
+		<Unit filename="include/BFSCode.h" />
+		<Unit filename="include/DFSCode.h" />
+		<Unit filename="include/DPCode.h" />
 		<Unit filename="include/SearchCode.h" />
 		<Unit filename="include/SortCode.h" />
 		<Unit filename="include/StringCode.h" />
