@@ -13,9 +13,9 @@ using namespace std;
 
 int main()
 {
-    string s = "dde";
+    string s = "0";
     vector<int> v;
-    cout << maxProfit(v);
+    cout << endl << numDecodings(s);
 
     //cout << sc.strStr(test1, test2);
     /*vector<int> a;

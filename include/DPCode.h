@@ -1,6 +1,10 @@
 #ifndef DPCODE_H_INCLUDED
 #define DPCODE_H_INCLUDED
 
+#include <vector>
+#include <iostream>
+#include <string>
+
 int minimumTotal(vector<vector<int> > &triangle) {
     int sum = 0;
     for (int i = triangle.size() - 2; i >= 0; i--) {
@@ -103,7 +107,7 @@ int maxProfit(vector<int> &prices) {
     return sum;
 }
 
-int maxProfit(vector<int> &prices) {
+int maxProfit1(vector<int> &prices) {
     int sum = 0, min_num = INT_MAX, tmp = INT_MIN;
     prices.push_back(INT_MIN);
     if (prices.size() > 0) tmp = min_num = prices[0];
@@ -116,8 +120,8 @@ int maxProfit(vector<int> &prices) {
     }
     return sum;
 }
-
-bool wordBreak(string s, unordered_set<string> &dict) {
+/*
+bool wordBreak1(string s, unordered_set<string> &dict) {
     vector<bool> f(s.size() + 1, false);
     f[0] = true;
     for (int i = 1; i < s.size(); i++) {
@@ -130,13 +134,168 @@ bool wordBreak(string s, unordered_set<string> &dict) {
 		}
 	return f[s.size()];
 }
+void wordBreakDfs(string &s, int start, unordered_set<string> &dict, vector<string> &ret, string &tmp) {
+    if (start >= s.size()) {
+        tmp.replace(tmp.size() - 1, tmp.size(), "");
+        ret.push_back(tmp);
+    } else {
+        for (int i = start + 1; i <= s.size(); i++) {
+            if (dict.find(s.substr(start, i - start)) != dict.end()) {
+                int ss = s.substr(start, i - start).size() + 1;
+                tmp += s.substr(start, i - start);
+                tmp += " ";
+                wordBreakDfs(s, i, dict, ret, tmp);
+                tmp.replace(tmp.size() - ss, tmp.size(), "");
+            }
+        }
+    }
+}
+
 
 vector<string> wordBreak(string s, unordered_set<string> &dict) {
-    v
+    vector<string> ret;
+    string tmp = "";
+    wordBreakDfs(s, 0, dict, ret, tmp);
+    return ret;
 }
 
-int maxProfit(vector<int> &prices) {
-
+void gen_path(const string &s, const vector<vector<bool> > &prev,
+    int cur, vector<string> &path, vector<string> &result) {
+    if (cur == 0) {
+        string tmp;
+        for (auto iter = path.crbegin(); iter != path.crend(); ++iter)
+        tmp += *iter + " ";
+        tmp.erase(tmp.end() - 1);
+        result.push_back(tmp);
+    }
+    for (size_t i = 0; i < s.size(); ++i) {
+        if (prev[cur][i]) {
+            path.push_back(s.substr(i, cur - i));
+            gen_path(s, prev, i, path, result);
+            path.pop_back();
+        }
+    }
 }
+
+
+
+vector<string> wordBreak(string s, unordered_set<string> &dict) {
+    // 长度为n 的字符串有n+1 个隔板
+    vector<bool> f(s.length() + 1, false);
+    // prev[i][j] 为true，表示s[j, i) 是一个合法单词，可以从j 处切开
+    // 第一行未用
+    vector<vector<bool> > prev(s.length() + 1, vector<bool>(s.length()));
+    f[0] = true;
+    for (size_t i = 1; i <= s.length(); ++i) {
+        for (int j = i - 1; j >= 0; --j) {
+            if (f[j] && dict.find(s.substr(j, i - j)) != dict.end()) {
+                f[i] = true;
+                prev[i][j] = true;
+            }
+        }
+    }
+    vector<string> result;
+    vector<string> path;
+    gen_path(s, prev, s.length(), path, result);
+    return result;
+}
+
+void gen_path(const string &s, const vector<vector<bool> > &prev,
+    int cur, vector<string> &path, vector<string> &result) {
+    if (cur == 0) {
+        string tmp;
+        for (auto iter = path.crbegin(); iter != path.crend(); ++iter)
+        tmp += *iter + " ";
+        tmp.erase(tmp.end() - 1);
+        result.push_back(tmp);
+    }
+    for (size_t i = 0; i < cur; ++i) {
+        if (prev[i][cur]) {
+            path.push_back(s.substr(i, i - cur));
+            gen_path(s, prev, i, path, result);
+            path.pop_back();
+        }
+    }
+}
+
+
+
+vector<string> wordBreak(string s, unordered_set<string> &dict) {
+    // 长度为n 的字符串有n+1 个隔板
+    vector<bool> f(s.length() + 1, false);
+    // prev[i][j] 为true，表示s[j, i) 是一个合法单词，可以从j 处切开
+    // 第一行未用
+    vector<vector<bool> > prev(s.length(), vector<bool>(s.length() + 1));
+    f[0] = true;
+    for (int i = 1; i <= s.size(); i++) {
+        for (int j = i - 1; j >=0; j--) {
+            if (f[j] && dict.find(s.substr(j, i - j)) != dict.end()) {
+                f[i] = true;
+                prev[j][i] = true;
+            }
+        }
+    }
+    vector<string> result;
+    vector<string> path;
+    gen_path(s, prev, s.size(), path, result);
+    return result;
+}*/
+
+int numDistinct(string S, string T) {
+    if (S.size() < T.size()) return 0;
+    vector<vector<int> > dp(S.size() + 1, vector<int>(T.size() + 1, 0));
+    for (int i = 0; i < S.size(); i++) {
+        for (int j = 0; j < T.size() && j <= i; j++) {
+            if (S[i] == T[j]) {
+                dp[i + 1][j + 1] = dp[i][j + 1] + dp[i][j];
+                // handle edge
+                if (j == 0) dp[i + 1][j + 1] += 1;
+            } else {
+                dp[i + 1][j + 1] = dp[i][j + 1];
+            }
+        }
+    }
+    return dp[S.size()][T.size()];
+}
+
+int decodeStr(string s) {
+    int tmp = 0;
+    for (int i = 0; i < s.size(); i++) {
+        tmp = tmp * 10 + s[i] - 30;
+    }
+    return tmp;
+}
+
+void dfsDecode(string s, int cur, vector<vector<bool> > &dp, int *sum) {
+    cout << "dfsDecode" << endl;
+    if (cur == 0) {
+        (*sum)++;
+    }
+    for (int i = cur - 1; i >= 0 && i >= cur - 2; i--) {
+        if (dp[i][cur]) dfsDecode(s, i, dp, sum);
+    }
+}
+
+int numDecodings(string s) {
+    if (s.size() == 0) return 0;
+    vector<bool> f(s.size() + 1, false);
+    vector<vector<bool> > dp(s.size() + 1, vector<bool> (s.size() + 1, false));
+    f[0] = true;
+    for (int i = 1; i <= s.size(); i++) {
+        for (int j = i - 1; j >= 0 && j >= i - 2; j--) {
+            int tmp = decodeStr(s.substr(j, i - j));
+            if (f[j] && i - j < 3 && tmp > 0 && tmp < 27) {
+                f[i] = true;
+                dp[j][i] = true;
+            }
+        }
+    }
+    int sum = 0;
+    cout << dp[0][1] << endl;
+    dfsDecode(s, s.size(), dp, &sum);
+    return sum;
+}
+
+
 
 #endif // DPCODE_H_INCLUDED
