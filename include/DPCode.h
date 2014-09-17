@@ -276,7 +276,7 @@ void dfsDecode(string s, int cur, vector<vector<bool> > &dp, int *sum) {
     }
 }
 
-int numDecodings(string s) {
+int numDecodings1(string s) {
     if (s.size() == 0) return 0;
     vector<bool> f(s.size() + 1, false);
     vector<vector<bool> > dp(s.size() + 1, vector<bool> (s.size() + 1, false));
@@ -296,6 +296,142 @@ int numDecodings(string s) {
     return sum;
 }
 
+int numDecodings(const string &s) {
+    if (s.empty() || s[0] == '0') return 0;
+    int prev = 0;
+    int cur = 1;
+    // 长度为n 的字符串，有n+1 个阶梯
+    cout << "i:" << 0 << "prev:" << prev << "cur:" << cur << endl;
+
+    for (size_t i = 1; i <= s.size(); ++i) {
+        if (s[i-1] == '0') cur = 0;
+        if (i < 2 || !(s[i - 2] == '1' ||
+                (s[i - 2] == '2' && s[i - 1] <= '6')))
+            prev = 0;
+        cout << "i:" << i << "prev:" << prev << "cur:" << cur << endl;
+        int tmp = cur;
+        cur = prev + cur;
+        prev = tmp;
+        cout << "i:" << i << "prev:" << prev << "cur:" << cur << endl;
+    }
+    return cur;
+}
+
+int minDistance(const string &word1, const string &word2) {
+    const size_t n = word1.size();
+    const size_t m = word2.size();
+    // 长度为n 的字符串，有n+1 个隔板
+    int f[n + 1][m + 1];
+    for (size_t i = 0; i <= n; i++)
+        f[i][0] = i;
+    for (size_t j = 0; j <= m; j++)
+        f[0][j] = j;
+    for (size_t i = 1; i <= n; i++) {
+        for (size_t j = 1; j <= m; j++) {
+            if (word1[i - 1] == word2[j - 1])
+                f[i][j] = f[i - 1][j - 1];
+            else {
+                int mn = min(f[i - 1][j], f[i][j - 1]);
+                f[i][j] = 1 + min(f[i - 1][j - 1], mn);
+            }
+        }
+    }
+    return f[n][m];
+}
+
+int minPathSum(vector<vector<int> > &grid) {
+    int m = grid.size();
+    if (m == 0) return 0;
+    int n = grid[0].size();
+    if (n == 0) return 0;
+    vector<vector<int> > f(m + 1, vector<int> (n + 1, 0));
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (j == 0) {
+                f[i + 1][j + 1] = f[i][j + 1] + grid[i][j];
+                continue;
+            }
+            if (i == 0) {
+                f[i + 1][j + 1] = f[i + 1][j] + grid[i][j];
+                continue;
+            }
+            f[i + 1][j + 1] = min(f[i][j + 1], f[i + 1][j]) + grid[i][j];
+        }
+    }
+    return f[m][n];
+}
+int maxProfit12(vector<int> &prices) {
+    if (prices.size() < 2) return 0;
+    vector<int> f(prices.size(), 0);
+    vector<int> g(prices.size(), 0);
+    for (int i = 1, valley = prices[0]; i < prices.size(); ++i) {
+        valley = min(valley, prices[i]);
+        f[i] = max(f[i - 1], prices[i] - valley);
+    }
+    for (int i = prices.size() - 2, peak = prices[prices.size() - 1]; i >= 0; --i) {
+        peak = max(peak, prices[i]);
+        g[i] = max(g[i], peak - prices[i]);
+    }
+    int max_profit = 0;
+    for (int i = 0; i < prices.size(); ++i)
+        max_profit = max(max_profit, f[i] + g[i]);
+    return max_profit;
+}
+
+bool isInterleave(string s1, string s2, string s3) {
+    int i = 0, j = 0, z = 0;
+    for (i = 0, j = 0, z = 0; z < s3.size() && j <= s2.size() && i <= s1.size(); z++) {
+        bool ret = s1[i] == s3[z];
+        if (i < s1.size() && s1[i] == s3[z]) {
+            i++;
+        } else if (j < s2.size() && s2[j] == s3[z]) {
+            j++;
+        } else
+            break;
+    }
+    return (z == s3.size() && j == s2.size() && i == s1.size());
+}
+bool isInterleave(string s1, string s2, string s3) {
+    if (s3.length() != s1.length() + s2.length())
+        return false;
+    vector<vector<bool>> f(s1.length() + 1,
+    vector<bool>(s2.length() + 1, true));
+    for (size_t i = 1; i <= s1.length(); ++i)
+        f[i][0] = f[i - 1][0] && s1[i - 1] == s3[i - 1];
+    for (size_t i = 1; i <= s2.length(); ++i)
+        f[0][i] = f[0][i - 1] && s2[i - 1] == s3[i - 1];
+    for (size_t i = 1; i <= s1.length(); ++i)
+        for (size_t j = 1; j <= s2.length(); ++j)
+            f[i][j] = (s1[i - 1] == s3[i + j - 1] && f[i - 1][j])
+            || (s2[j - 1] == s3[i + j - 1] && f[i][j - 1]);
+    return f[s1.length()][s2.length()];
+}
+
+bool isScramble(string s1, string s2) {
+    const int N = s1.size();
+    if (s1.size() != s2.size()) return false;
+
+    bool f[N + 1][N][N];
+    fill_n(&f[0][0][0], (N + 1) * N * N, false);
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            f[1][i][j] = s1[i] == s2[j];
+
+    for (int n = 2; n <= N; n++) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                for (int k = 1; k < n; k++) {
+                    if ((f[k][i][j] && f[n - k][i + k][j + k]) ||
+                                (f[k][i][j + n - k] && f[n - k][i + k][j])) {
+                        f[n][i][j] = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return f[N][0][0];
+}
 
 
 #endif // DPCODE_H_INCLUDED

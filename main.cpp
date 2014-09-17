@@ -13,9 +13,15 @@ using namespace std;
 
 int main()
 {
-    string s = "0";
-    vector<int> v;
-    cout << endl << numDecodings(s);
+    string s1 = "a";
+    string s2 = "";
+    string s3 = "a";
+               // 012345678
+    vector<vector<int> > v(2, vector<int> (2,1));
+    cout << endl << isInterleave(s1,s2,s3);
+    cout.width(7);
+    cout.setf(ios::showpoint);
+    cout << 1.0;
 
     //cout << sc.strStr(test1, test2);
     /*vector<int> a;
